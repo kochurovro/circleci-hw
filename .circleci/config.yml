@@ -19,6 +19,9 @@ jobs:
     docker:
       - image: circleci/golang:1.9
     working_directory: /go/src/github.com/kochurovro/circleci-hw
+    filters:
+      tags:
+        only: /^v.*/
     steps:
       - checkout
       - run:
