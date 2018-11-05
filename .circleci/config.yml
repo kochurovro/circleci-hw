@@ -15,7 +15,7 @@ jobs:
       - run: go get -v -t -d ./...
       - run: go test -v ./...
 
-  "deploy": 
+  "deploy-production": 
     docker:
       - image: circleci/golang:1.9
     working_directory: /go/src/github.com/kochurovro/circleci-hw
@@ -43,7 +43,7 @@ workflows:
   build:
     jobs:
       - test
-      - deploy:
+      - deploy-production:
           filters:
             tags:
               only:  /^v[0-9]+(\.[0-9]+)*$/
