@@ -50,6 +50,7 @@ workflows:
           filters:
             tags:
               only: /^v.*/
+              ignore: /.*/
   # build:
   #   jobs:
   #     - test
