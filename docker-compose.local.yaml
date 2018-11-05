@@ -1,0 +1,17 @@
+version: '3.6'
+
+services:
+  server:
+    container_name: server
+    tty: true
+    restart: always
+    build:
+        context: .
+        dockerfile: Dockerfile-local
+    ports:
+      - "8080:8080"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
