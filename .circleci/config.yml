@@ -46,8 +46,8 @@ workflows:
       - test
       - deploy:
           filters:
-            tags:
-              only: /^v.*/
+            branches:
+              only: master
 
       
   # build:
