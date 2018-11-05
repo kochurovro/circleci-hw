@@ -45,9 +45,10 @@ workflows:
       - test
       - deploy-production:
           filters:
-            tags:
-              only:  /^v[0-9]+(\.[0-9]+)*$/
-
+            branches:
+              only:
+                - /v[0-9]+\.[0-9]+/
+                - feature/circleci
       
   # build:
   #   docker:
