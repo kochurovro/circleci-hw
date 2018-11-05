@@ -19,16 +19,13 @@ jobs:
     docker:
       - image: circleci/golang:1.9
     working_directory: /go/src/github.com/kochurovro/circleci-hw
-    filters:
-      tags:
-        only: /^v.*/
     steps:
       - checkout
       - run:
           name: Setup Env
           command: |
             echo ${PROJECT_PATH}
-            # echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
+            echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
             echo 'export IMAGE_NAME=circleci-hw-docker' >> $BASH_ENV 
       - add_ssh_keys:
           fingerprints:
@@ -46,8 +43,12 @@ workflows:
   version: 2
   build:
     jobs:
-      - "test"
-      - "deploy"
+      - test
+      - deploy:
+          filters:
+            tags:
+              only: /^v.*/
+
       
   # build:
   #   docker:
