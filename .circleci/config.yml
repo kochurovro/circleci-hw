@@ -15,7 +15,7 @@ jobs:
       - run: go get -v -t -d ./...
       - run: go test -v ./...
 
-  "deploy": 
+  "deploy-prod": 
     docker:
       - image: circleci/golang:1.9
     working_directory: /go/src/github.com/kochurovro/circleci-hw
@@ -46,7 +46,7 @@ workflows:
       - test
   tagged-build:
     jobs:
-      - build:
+      - deploy-prod:
           filters:
             tags:
               only: /^v.*/
