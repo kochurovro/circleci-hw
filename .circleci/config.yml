@@ -15,7 +15,7 @@ jobs:
       - run: go get -v -t -d ./...
       - run: go test -v ./...
 
-  "deploy-prod": 
+  "deploy": 
     docker:
       - image: circleci/golang:1.9
     working_directory: /go/src/github.com/kochurovro/circleci-hw
@@ -38,26 +38,15 @@ jobs:
             docker build -t kochurovro/$IMAGE_NAME:$TAG .
             echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
             docker push $DOCKER_LOGIN/$IMAGE_NAME:$TAG         
-
 workflows:
   version: 2
-  untagged-build:
+  build:
     jobs:
       - test
-  tagged-build:
-    jobs:
-      - deploy-prod:
+      - deploy:
           filters:
             tags:
               only: /^v.*/
-              ignore: /.*/
-  # build:
-  #   jobs:
-  #     - test
-  #     - deploy:
-  #         filters:
-  #           tags:
-  #             only: /^v.*/
 
       
   # build:
