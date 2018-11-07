@@ -37,7 +37,15 @@ jobs:
           command: |
             docker build -t kochurovro/$IMAGE_NAME:$TAG .
             echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
-            docker push $DOCKER_LOGIN/$IMAGE_NAME:$TAG         
+            docker push $DOCKER_LOGIN/$IMAGE_NAME:$TAG  
+      - run:
+          name: Deploy app to ... via Docker
+          command: |            
+            ssh -i "${SSH_KEY}" ${PROD_USER}@${PROD_HOSTNAME}
+            -t "cd circleci-hw &&
+            TAG=$TAG docker-compose pull &&
+            TAG=$TAG docker-compose up -d --no-deps"
+
 workflows:
   version: 2
   build:
@@ -49,33 +57,3 @@ workflows:
               only:
                 - /v[0-9]+\.[0-9]+/
                 - feature/circleci
-      
-  # build:
-  #   docker:
-  #     # specify the version
-  #     - image: circleci/golang:1.9
-
-  #   working_directory: /go/src/github.com/kochurovro/circleci-hw
-  #   steps:
-  #     - checkout
-  #     - run:
-          # name: Setup Env
-          # command: |
-          #   echo ${PROJECT_PATH}
-          #   echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
-          #   echo 'export IMAGE_NAME=circleci-hw-docker' >> $BASH_ENV 
-      # - add_ssh_keys:
-      #     fingerprints:
-      #       - ${FINGER_PRINT}  
-  #     # specify any bash command here prefixed with `run: `
-      # - run: go get -v -t -d ./...
-      # - run: go test -v ./...
-
-      # - setup_remote_docker:
-      #     docker_layer_caching: true
-      # - run:
-      #     name: Build and push Docker image
-      #     command: |
-      #       docker build -t kochurovro/$IMAGE_NAME:$TAG .
-      #       echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
-      #       docker push $DOCKER_LOGIN/$IMAGE_NAME:$TAG
