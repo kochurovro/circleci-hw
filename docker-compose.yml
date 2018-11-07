@@ -5,7 +5,7 @@ services:
     container_name: server
     restart: always
     tty: true
-    image: kochurovro/circleci-hw-docker:0.1.14
+    image: kochurovro/circleci-hw-docker:0.1.${TAG}
     ports:
       - "8080:8080"
     logging:
