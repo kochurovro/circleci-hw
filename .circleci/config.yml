@@ -22,10 +22,29 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      # - run:
+      #     name: Install AWS dependencies
+      #     command: |
+            
+      # - run:
+      #     name: Deploy to S3
+      #     command: aws s3 sync circleci-hw/ s3://circle-hw/ --delete
+  
+  deploy:
+    docker:
+      - image: circleci/python:2.7-jessie
+    deployment:
+      staging:
+        branch: master
+        codedeploy:
+          circleci-hw:
+            deployment_group: my-deployment-group  
+    working_directory: /go/src/github.com/kochurovro/circleci-hw
+    steps:
       - run:
-          name: Install AWS dependencies
+          name: Install awscli
           command: |
-            pt-get -y -qq update
+            apt-get -y -qq update
             apt-get -y -qq install python3.4-dev
             curl -O https://bootstrap.pypa.io/get-pip.py
             python3.4 get-pip.py --user
@@ -33,7 +52,6 @@ jobs:
       - run:
           name: Deploy to S3
           command: aws s3 sync circleci-hw/ s3://circle-hw/ --delete
-
 
 workflows:
   version: 2
@@ -43,3 +61,6 @@ workflows:
       - build:
           requires:
             - test
+      - deploy:
+          requires:
+            - build      
