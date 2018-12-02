@@ -21,23 +21,14 @@ jobs:
     working_directory: /go/src/github.com/kochurovro/circleci-hw
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - $FINGER_PRINT
-      - setup_remote_docker:
-          docker_layer_caching: true
+      - setup_remote_docker
       - run:
-          name: Setup Env
-          command: |
-            echo ${PROJECT_PATH}
-            echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
-            echo 'export IMAGE_NAME=circleci-hw-docker' >> $BASH_ENV 
+          name: Install awscli
+          command: sudo pip install awscli
       - run:
-          name: Build and push Docker image
-          command: |
-            docker build -t kochurovro/$IMAGE_NAME:$TAG .
-            echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
-            docker push $DOCKER_LOGIN/$IMAGE_NAME:$TAG  
+          name: Deploy to S3
+          command: aws s3 sync circleci-hw/ s3://circle-hw/ --delete
+
 
 workflows:
   version: 2
