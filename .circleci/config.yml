@@ -44,8 +44,7 @@ jobs:
           command: |
             sudo apt-get install awscli
             ls
-            echo "hw" > hw.txt
-            aws s3 cp hw.txt s3://circle-hw/src
+            aws s3 cp main.go s3://circle-hw/src
 
 workflows:
   version: 2
