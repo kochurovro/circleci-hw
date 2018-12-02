@@ -43,7 +43,7 @@ jobs:
       - run:
           name: Deploy to S3
           command: |
-            apt-get install awscli
+            sudo apt-get install awscli
             aws s3 sync circleci-hw/ s3://circle-hw/ --delete
 
 workflows:
