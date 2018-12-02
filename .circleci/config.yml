@@ -38,13 +38,13 @@ jobs:
         branch: master
         codedeploy:
           circleci-hw:
-            deployment_group: circleci-hw
+            deployment_group: kro
     steps:
       - run:
           name: Deploy to S3
           command: |
             sudo apt-get install awscli
-            # aws s3 sync . s3://circle-hw/ --delete
+            aws s3 cp . s3://circle-hw/src --delete
 
 workflows:
   version: 2
