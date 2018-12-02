@@ -23,8 +23,14 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Install awscli
-          command: sudo pip install awscli
+          name: Install pip
+          command: |
+            sudo apt update
+            sudo apt install -y python-pip python-dev
+      - run:
+          name: Install AWS dependencies
+          command: |
+            sudo pip install awsebcli
       - run:
           name: Deploy to S3
           command: aws s3 sync circleci-hw/ s3://circle-hw/ --delete
