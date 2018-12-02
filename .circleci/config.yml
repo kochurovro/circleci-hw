@@ -5,7 +5,6 @@ jobs:
       - image: circleci/golang:1.9
     working_directory: /go/src/github.com/kochurovro/circleci-hw
     steps:
-      - checkout
       - run:
           name: Setup Env
           command: |
@@ -33,7 +32,6 @@ jobs:
   deploy:
     docker:
       - image: circleci/python:2.7-jessie
-    working_directory: /go/src/github.com/kochurovro/circleci-hw  
     deployment:
       staging:
         branch: master
@@ -41,6 +39,7 @@ jobs:
           circleci-hw:
             deployment_group: kro
     steps:
+      - checkout
       - run:
           name: Deploy to S3
           command: |
