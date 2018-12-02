@@ -41,16 +41,10 @@ jobs:
             deployment_group: circleci-hw
     steps:
       - run:
-          name: Install awscli
-          command: |
-            sudo apt-get -y -qq update
-            sudo apt-get -y -qq install python3.4-dev
-            curl -O https://bootstrap.pypa.io/get-pip.py
-            python3.4 get-pip.py --user
-            sudo pip install awscli --upgrade --user
-      - run:
           name: Deploy to S3
-          command: aws s3 sync circleci-hw/ s3://circle-hw/ --delete
+          command: |
+            apt-get install awscli
+            aws s3 sync circleci-hw/ s3://circle-hw/ --delete
 
 workflows:
   version: 2
