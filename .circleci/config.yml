@@ -15,13 +15,13 @@ jobs:
       - run: go get -v -t -d ./...
       - run: go test -v ./...
 
-  build: 
-    docker:
-      - image: circleci/golang:1.9
-    working_directory: /go/src/github.com/kochurovro/circleci-hw
-    steps:
-      - checkout
-      - setup_remote_docker
+  # build: 
+  #   docker:
+  #     - image: circleci/golang:1.9
+  #   working_directory: /go/src/github.com/kochurovro/circleci-hw
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
       # - run:
       #     name: Install AWS dependencies
       #     command: |
@@ -44,7 +44,7 @@ jobs:
           name: Deploy to S3
           command: |
             sudo apt-get install awscli
-            aws s3 sync circleci-hw/ s3://circle-hw/ --delete
+            # aws s3 sync . s3://circle-hw/ --delete
 
 workflows:
   version: 2
