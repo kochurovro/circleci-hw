@@ -33,6 +33,7 @@ jobs:
   deploy:
     docker:
       - image: circleci/python:2.7-jessie
+    working_directory: /go/src/github.com/kochurovro/circleci-hw  
     deployment:
       staging:
         branch: master
