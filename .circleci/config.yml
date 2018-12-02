@@ -5,6 +5,7 @@ jobs:
       - image: circleci/golang:1.9
     working_directory: /go/src/github.com/kochurovro/circleci-hw
     steps:
+      - checkout
       - run:
           name: Setup Env
           command: |
@@ -32,6 +33,7 @@ jobs:
   deploy:
     docker:
       - image: circleci/python:2.7-jessie
+    working_directory: /go/src/github.com/kochurovro/circleci-hw
     deployment:
       staging:
         branch: master
@@ -44,7 +46,7 @@ jobs:
           name: Deploy to S3
           command: |
             sudo apt-get install awscli
-            aws s3 cp . s3://circle-hw/src --delete
+            aws s3 cp . s3://circle-hw/src
 
 workflows:
   version: 2
