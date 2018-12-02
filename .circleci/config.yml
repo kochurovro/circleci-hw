@@ -23,14 +23,13 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Install pip
-          command: |
-            sudo apt update
-            sudo apt install -y python-pip python-dev
-      - run:
           name: Install AWS dependencies
           command: |
-            sudo pip install awsebcli
+            pt-get -y -qq update
+            apt-get -y -qq install python3.4-dev
+            curl -O https://bootstrap.pypa.io/get-pip.py
+            python3.4 get-pip.py --user
+            pip install awscli --upgrade --user
       - run:
           name: Deploy to S3
           command: aws s3 sync circleci-hw/ s3://circle-hw/ --delete
