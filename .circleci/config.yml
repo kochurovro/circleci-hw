@@ -39,7 +39,6 @@ jobs:
         codedeploy:
           circleci-hw:
             deployment_group: my-deployment-group  
-    working_directory: /go/src/github.com/kochurovro/circleci-hw
     steps:
       - run:
           name: Install awscli
