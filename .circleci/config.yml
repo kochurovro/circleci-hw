@@ -33,21 +33,20 @@ jobs:
   deploy:
     docker:
       - image: circleci/python:2.7-jessie
-      - image: circleci/golang:1.9
     working_directory: /go/src/github.com/kochurovro/circleci-hw
-    deployment:
-      staging:
-        branch: master
-        codedeploy:
-          circleci-hw:
-            deployment_group: kro
     steps:
       - checkout
+      - run:
+          name: Setup Env
+          command: |
+            echo ${PROJECT_PATH}
       - run:
           name: Deploy to S3
           command: |
             sudo apt-get install awscli
-            aws s3 cp /go/src/github.com/kochurovro/circleci-hw s3://circle-hw/src
+            ls
+            echo "hw" > hw.txt
+            aws s3 cp hw.txt s3://circle-hw/src
 
 workflows:
   version: 2
