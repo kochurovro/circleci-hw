@@ -52,7 +52,7 @@ jobs:
           name: Deploy to S3
           command: |
             sudo apt-get install awscli
-            docker build -t kochurovro/$IMAGE_NAME:$TAG .
+            # docker build -t kochurovro/$IMAGE_NAME:$TAG .
             aws configure set default.s3.signature_version s3v4
             aws s3 cp . s3://circleci-hw/
 
