@@ -30,7 +30,7 @@ jobs:
       #     name: Deploy to S3
       #     command: aws s3 sync circleci-hw/ s3://circle-hw/ --delete
   
-  deploy:
+  build:
     docker:
       - image: circleci/python:2.7-jessie
     steps:
@@ -43,9 +43,9 @@ jobs:
           name: Deploy to S3
           command: |
             sudo apt-get install awscli
-            ls
+            docker build -t kochurovro/$IMAGE_NAME:$TAG .
             aws configure set default.s3.signature_version s3v4
-            aws s3 cp main.go s3://circleci-hw/
+            docker save -o s3://circleci-hw/
 
 workflows:
   version: 2
