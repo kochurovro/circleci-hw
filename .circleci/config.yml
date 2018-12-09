@@ -35,7 +35,7 @@ jobs:
       - run:
           name: Build and push Docker image
           command: |
-            docker build -t kochurovro/$IMAGE_NAME:$TAG .
+            docker build kochurovro/$IMAGE_NAME:$TAG .
             docker ps -a
             # echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
             # docker push $DOCKER_LOGIN/$IMAGE_NAME:$TAG  
