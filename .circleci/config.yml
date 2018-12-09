@@ -54,7 +54,7 @@ jobs:
             sudo apt-get install awscli
             ls
             aws configure set default.s3.signature_version s3v4
-            aws s3 cp main.go s3://circleci-hw/
+            aws s3 cp ./ s3://circleci-hw/
             
 workflows:
   version: 2
