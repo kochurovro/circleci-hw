@@ -15,33 +15,33 @@ jobs:
       - run: go get -v -t -d ./...
       - run: go test -v ./...
 
-  build: 
-    docker:
-      - image: circleci/golang:1.9
-    working_directory: /go/src/github.com/kochurovro/circleci-hw
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - $FINGER_PRINT
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          name: Setup Env
-          command: |
-            echo ${PROJECT_PATH}
-            echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
-            echo 'export IMAGE_NAME=circleci-hw-docker' >> $BASH_ENV 
-      - run:
-          name: Build and push Docker image
-          command: |
-            docker build -t kochurovro/$IMAGE_NAME:$TAG .
-            # echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
-            # docker push $DOCKER_LOGIN/$IMAGE_NAME:$TAG  
+  # build: 
+  #   docker:
+  #     - image: circleci/golang:1.9
+  #   working_directory: /go/src/github.com/kochurovro/circleci-hw
+  #   steps:
+  #     - checkout
+  #     - add_ssh_keys:
+  #         fingerprints:
+  #           - $FINGER_PRINT
+  #     - setup_remote_docker:
+  #         docker_layer_caching: true
+  #     - run:
+  #         name: Setup Env
+  #         command: |
+  #           echo ${PROJECT_PATH}
+  #           echo 'export TAG=0.1.${CIRCLE_BUILD_NUM}' >> $BASH_ENV
+  #           echo 'export IMAGE_NAME=circleci-hw-docker' >> $BASH_ENV 
+  #     - run:
+  #         name: Build and push Docker image
+  #         command: |
+  #           docker build -t kochurovro/$IMAGE_NAME:$TAG .
+  #           # echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
+  #           # docker push $DOCKER_LOGIN/$IMAGE_NAME:$TAG  
   
   deploy:
     docker:
-      - image: circleci/python:2.7-jessie
+      - image: circleci/
     steps:
       - checkout
       - run:
@@ -52,7 +52,6 @@ jobs:
           name: Deploy to S3
           command: |
             sudo apt-get install awscli
-            # docker build -t kochurovro/$IMAGE_NAME:$TAG .
             aws configure set default.s3.signature_version s3v4
             aws s3 cp . s3://circleci-hw/
 
@@ -61,10 +60,7 @@ workflows:
   build-and-deploy:
     jobs:
       - test
-      - build:
-          requires:
-            - test
-      - deploy:
-          requires:
-            - build
-         
+      # - build:
+      #     requires:
+      #       - test
+      - deploy
