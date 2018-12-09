@@ -45,25 +45,29 @@ jobs:
             # echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
             # docker push $DOCKER_LOGIN/$IMAGE_NAME:$TAG  
   
-  # deploy:
-  #   docker:
-  #     - image: circleci/python:2.7-jessie
-  #     - image: circleci/
-  #   steps:
-  #     - checkout
+  deploy:
+    docker:
+      - image: circleci/python:2.7-jessie
+    steps:
+      - checkout
+      - setup_remote_docker
+      - attach_workspace:
+          at: workspace
   #     - run:
   #         name: Setup Env
   #         command: |
   #           echo ${PROJECT_PATH}
-  #     - run:
-  #         name: Deploy to S3
-  #         command: |
-  #           # # pwd
-  #           # echo $HOME
-  #           # ls $HOME/project/
-  #           # # sudo apt-get install awscli
+      - run:
+          name: Load image
+          command: |
+            docker load --input workspace/docker-image/image.tar 
+      - run:
+          name: Deploy to S3
+          command: |
+            sudo apt-get install awscli
+            aws configure set default.s3.signature_version s3v4
+            aws s3 sync workspace/docker-image/image.tar s3://circleci-hw/ 
   #           # # # docker ps -a
-  #           # # aws configure set default.s3.signature_version s3v4
   #           # # aws s3 cp $HOME/project/ s3://circleci-hw/
             
 workflows:
