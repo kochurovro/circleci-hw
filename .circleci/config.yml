@@ -53,10 +53,11 @@ jobs:
           name: Deploy to S3
           command: |
             # pwd
-            sudo apt-get install awscli
+            echo $HOME
+            # sudo apt-get install awscli
             # docker ps -a
-            aws configure set default.s3.signature_version s3v4
-            aws s3 cp pwd s3://circleci-hw/
+            # aws configure set default.s3.signature_version s3v4
+            # aws s3 cp pwd s3://circleci-hw/
             
 workflows:
   version: 2
