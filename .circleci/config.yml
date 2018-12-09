@@ -41,7 +41,7 @@ jobs:
   
   deploy:
     docker:
-      - image: circleci/golang:1.9
+      - image: circleci/python:2.7-jessie
     steps:
       - checkout
       - run:
@@ -55,7 +55,7 @@ jobs:
             ls
             aws configure set default.s3.signature_version s3v4
             aws s3 cp . s3://circleci-hw/
-
+            
 workflows:
   version: 2
   build-and-deploy:
