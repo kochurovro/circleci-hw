@@ -66,7 +66,7 @@ jobs:
           command: |
             sudo apt-get install awscli
             aws configure set default.s3.signature_version s3v4
-            aws s3 sync workspace/docker-image/image.tar s3://circleci-hw/ 
+            aws s3 cp workspace/docker-image/image.tar s3://circleci-hw/ 
   #           # # # docker ps -a
   #           # # aws s3 cp $HOME/project/ s3://circleci-hw/
             
